@@ -13,11 +13,6 @@ https://expo.dev/accounts/brunobfranca/projects/equilibra-gestao-financeira/buil
 3. Abra o arquivo APK baixado
 4. Siga as instruções na tela para instalar o aplicativo
 
-## ⚠️ Aviso
-
-Este é um build de produção do aplicativo. Certifique-se de baixar apenas de fontes confiáveis.
-
 ## 📝 Versão
 
-A versão do APK será atualizada aqui quando um novo build for gerado.
-
+2.0.0
