@@ -253,9 +253,15 @@ export default function MonthlySummaryScreen({ onBack, userId }: MonthlySummaryS
                   !selectedMonth ||
                   allAvailableMonths.findIndex(
                     (m) => m.month === selectedMonth.month && m.year === selectedMonth.year
-                  ) === allAvailableMonths.length - 1
+                  ) === 0
                 }
-                style={styles.monthNavButton}
+                style={[
+                  styles.monthNavButton,
+                  (!selectedMonth ||
+                    allAvailableMonths.findIndex(
+                      (m) => m.month === selectedMonth.month && m.year === selectedMonth.year
+                    ) === 0) && styles.monthNavButtonDisabled
+                ]}
               >
                 <Ionicons
                   name="chevron-back"
@@ -264,7 +270,7 @@ export default function MonthlySummaryScreen({ onBack, userId }: MonthlySummaryS
                     !selectedMonth ||
                     allAvailableMonths.findIndex(
                       (m) => m.month === selectedMonth.month && m.year === selectedMonth.year
-                    ) === allAvailableMonths.length - 1
+                    ) === 0
                       ? colors.gray + '40'
                       : colors.text
                   }
@@ -282,9 +288,15 @@ export default function MonthlySummaryScreen({ onBack, userId }: MonthlySummaryS
                   !selectedMonth ||
                   allAvailableMonths.findIndex(
                     (m) => m.month === selectedMonth.month && m.year === selectedMonth.year
-                  ) === 0
+                  ) === allAvailableMonths.length - 1
                 }
-                style={styles.monthNavButton}
+                style={[
+                  styles.monthNavButton,
+                  (!selectedMonth ||
+                    allAvailableMonths.findIndex(
+                      (m) => m.month === selectedMonth.month && m.year === selectedMonth.year
+                    ) === allAvailableMonths.length - 1) && styles.monthNavButtonDisabled
+                ]}
               >
                 <Ionicons
                   name="chevron-forward"
@@ -293,7 +305,7 @@ export default function MonthlySummaryScreen({ onBack, userId }: MonthlySummaryS
                     !selectedMonth ||
                     allAvailableMonths.findIndex(
                       (m) => m.month === selectedMonth.month && m.year === selectedMonth.year
-                    ) === 0
+                    ) === allAvailableMonths.length - 1
                       ? colors.gray + '40'
                       : colors.text
                   }
@@ -486,6 +498,12 @@ const createStyles = (colors: any) =>
     },
     monthNavButton: {
       padding: 8,
+      minWidth: 40,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    monthNavButtonDisabled: {
+      opacity: 0.3,
     },
     monthLabelContainer: {
       flex: 1,
