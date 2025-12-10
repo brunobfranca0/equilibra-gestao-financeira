@@ -111,7 +111,7 @@ function AppContent() {
     });
 
     return () => backHandler.remove();
-  }, [currentScreen, showTransactionDetails, showAddTransaction]);
+  }, [currentScreen, showTransactionDetails, showAddTransaction, activeTab]);
 
   // Limpar histórico quando mudar de tab na tela principal
   useEffect(() => {
