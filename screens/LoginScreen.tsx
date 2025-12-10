@@ -38,15 +38,6 @@ export default function LoginScreen() {
   const [loading, setLoading] = useState(false);
   const { signIn, signUp } = useAuth();
 
-  // Verificar se o Supabase está configurado
-  const isSupabaseConfigured = () => {
-    const url = process.env.EXPO_PUBLIC_SUPABASE_URL || '';
-    const key = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY || '';
-    return !!(url && key && 
-      url !== 'https://placeholder.supabase.co' &&
-      key !== 'placeholder-key');
-  };
-
   const handleSubmit = async () => {
     if (isLogin) {
       if (!email || !password) {
@@ -119,15 +110,6 @@ export default function LoginScreen() {
             <Text style={styles.subtitle}>
               {isLogin ? 'Entre na sua conta' : 'Crie sua conta'}
             </Text>
-            
-            {!isSupabaseConfigured() && (
-              <View style={styles.warningContainer}>
-                <Ionicons name="warning-outline" size={20} color="#FFA500" />
-                <Text style={styles.warningText}>
-                  Credenciais do Supabase não configuradas. Configure as variáveis de ambiente.
-                </Text>
-              </View>
-            )}
           </View>
 
           <View style={styles.form}>
@@ -294,22 +276,5 @@ const styles = StyleSheet.create({
   switchLink: {
     color: COLORS.purple,
     fontWeight: '600',
-  },
-  warningContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#FFA50020',
-    padding: 12,
-    borderRadius: 8,
-    marginTop: 16,
-    borderWidth: 1,
-    borderColor: '#FFA50040',
-  },
-  warningText: {
-    color: '#FFA500',
-    fontSize: 12,
-    marginLeft: 8,
-    flex: 1,
-    textAlign: 'center',
   },
 });
