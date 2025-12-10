@@ -22,12 +22,18 @@
         "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false,
-      "permissions": []
+      "edgeToEdgeEnabled": false,
+      "predictiveBackGestureEnabled": true,
+      "permissions": [],
+      "softwareKeyboardLayoutMode": "pan"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "388a8ed7-aca8-41e1-b2f9-33421617620b"
+      }
     }
   }
 }

@@ -78,12 +78,14 @@ const createStyles = (colors: any, isDark: boolean) => StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: isDark ? '#080809' : '#FFFFFF',
     paddingHorizontal: 24,
-    paddingBottom: 20,
+    paddingBottom: Platform.OS === 'android' ? 20 : 20,
     paddingTop: 12,
     alignItems: 'center',
     justifyContent: 'space-between',
     borderTopWidth: isDark ? 0 : 1,
     borderTopColor: colors.border,
+    // Garantir que a barra não seja sobreposta pelos botões do sistema
+    marginBottom: Platform.OS === 'android' ? 0 : 0,
   },
   fabButton: {
     width: 64,

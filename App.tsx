@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import { useMemo, useState } from 'react';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { BackHandler, Platform, SafeAreaView, StyleSheet, View } from 'react-native';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 import { ErrorBoundary } from './components/ErrorBoundary';
@@ -49,19 +49,76 @@ function AppContent() {
   const [activeCardId, setActiveCardId] = useState<string | null>(null);
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
   const [showTransactionDetails, setShowTransactionDetails] = useState(false);
+  
+  // Histórico de navegação para o botão voltar
+  const navigationHistory = useRef<Array<{ screen: ScreenKey; tab?: TabKey }>>([]);
 
   const handleNavigate = (screen: ScreenKey) => {
+    // Adicionar tela atual ao histórico antes de navegar
+    if (currentScreen !== 'main') {
+      navigationHistory.current.push({ screen: currentScreen, tab: activeTab });
+    }
     setCurrentScreen(screen);
   };
 
   const handleGoToAccounts = () => {
+    navigationHistory.current.push({ screen: currentScreen, tab: activeTab });
     setActiveTab('accounts');
     setCurrentScreen('main');
   };
 
   const handleBack = () => {
-    setCurrentScreen('main');
+    // Se houver histórico, voltar para a tela anterior
+    if (navigationHistory.current.length > 0) {
+      const previous = navigationHistory.current.pop();
+      if (previous) {
+        if (previous.tab) {
+          setActiveTab(previous.tab);
+        }
+        setCurrentScreen(previous.screen);
+      }
+    } else {
+      // Se não houver histórico, voltar para a tela principal
+      setCurrentScreen('main');
+    }
   };
+
+  // Interceptar botão voltar do Android
+  useEffect(() => {
+    if (Platform.OS !== 'android') return;
+
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      // Se houver modal aberto, fechar primeiro
+      if (showTransactionDetails) {
+        setShowTransactionDetails(false);
+        setSelectedTransaction(null);
+        return true;
+      }
+      
+      if (showAddTransaction) {
+        setShowAddTransaction(false);
+        return true;
+      }
+
+      // Se estiver em uma tela secundária, voltar para a tela principal
+      if (currentScreen !== 'main') {
+        handleBack();
+        return true; // Previne o comportamento padrão (sair do app)
+      }
+
+      // Se estiver na tela principal, permitir sair do app
+      return false;
+    });
+
+    return () => backHandler.remove();
+  }, [currentScreen, showTransactionDetails, showAddTransaction]);
+
+  // Limpar histórico quando mudar de tab na tela principal
+  useEffect(() => {
+    if (currentScreen === 'main') {
+      navigationHistory.current = [];
+    }
+  }, [activeTab, currentScreen]);
 
   const handleTransactionSuccess = () => {
     setRefreshKey((prev) => prev + 1);
@@ -241,6 +298,14 @@ function AppContent() {
 }
 
 const createStyles = (colors: any) => StyleSheet.create({
-  safe: { flex: 1, backgroundColor: colors.background },
-  container: { flex: 1, backgroundColor: colors.background, paddingBottom: 96 },
+  safe: { 
+    flex: 1, 
+    backgroundColor: colors.background,
+    paddingTop: Platform.OS === 'android' ? 0 : 0, // SafeAreaView já cuida do padding
+  },
+  container: { 
+    flex: 1, 
+    backgroundColor: colors.background, 
+    paddingBottom: 96,
+  },
 });
