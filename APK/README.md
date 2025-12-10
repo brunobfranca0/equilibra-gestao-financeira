@@ -4,7 +4,7 @@ Esta pasta contém o arquivo APK do aplicativo Equilibra para instalação em di
 
 ## 📱 Download
 
-[https://expo.dev/accounts/brunobfranca/projects/equilibra-gestao-financeira/builds/96ab60bf-23af-4d1b-9eef-d8306703c2f7]
+https://expo.dev/accounts/brunobfranca/projects/equilibra-gestao-financeira/builds/96ab60bf-23af-4d1b-9eef-d8306703c2f7
 
 ## 📋 Instruções de Instalação
 
