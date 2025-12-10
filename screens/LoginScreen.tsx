@@ -32,15 +32,23 @@ const COLORS = {
 
 export default function LoginScreen() {
   const [isLogin, setIsLogin] = useState(true);
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const { signIn, signUp } = useAuth();
 
   const handleSubmit = async () => {
-    if (!email || !password) {
-      Alert.alert('Erro', 'Por favor, preencha todos os campos');
-      return;
+    if (isLogin) {
+      if (!email || !password) {
+        Alert.alert('Erro', 'Por favor, preencha todos os campos');
+        return;
+      }
+    } else {
+      if (!name || !email || !password) {
+        Alert.alert('Erro', 'Por favor, preencha todos os campos');
+        return;
+      }
     }
 
     if (password.length < 6) {
@@ -60,7 +68,7 @@ export default function LoginScreen() {
           // Não precisamos fazer nada aqui, o onAuthStateChange vai atualizar
         }
       } else {
-        const { error, data } = await signUp(email, password);
+        const { error, data } = await signUp(email, password, name);
         if (error) {
           Alert.alert('Erro', error.message);
           setLoading(false);
@@ -114,6 +122,21 @@ export default function LoginScreen() {
           </View>
 
           <View style={styles.form}>
+            {!isLogin && (
+              <View style={styles.inputContainer}>
+                <Ionicons name="person-outline" size={20} color={COLORS.gray} style={styles.inputIcon} />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Nome"
+                  placeholderTextColor={COLORS.gray}
+                  value={name}
+                  onChangeText={setName}
+                  autoCapitalize="words"
+                  autoComplete="name"
+                />
+              </View>
+            )}
+
             <View style={styles.inputContainer}>
               <Ionicons name="mail-outline" size={20} color={COLORS.gray} style={styles.inputIcon} />
               <TextInput
@@ -158,7 +181,13 @@ export default function LoginScreen() {
 
             <TouchableOpacity
               style={styles.switchButton}
-              onPress={() => setIsLogin(!isLogin)}
+              onPress={() => {
+                setIsLogin(!isLogin);
+                // Limpar campos ao alternar entre login e cadastro
+                if (!isLogin) {
+                  setName('');
+                }
+              }}
             >
               <Text style={styles.switchText}>
                 {isLogin ? 'Não tem uma conta? ' : 'Já tem uma conta? '}
