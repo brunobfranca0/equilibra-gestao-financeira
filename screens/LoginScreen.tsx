@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../contexts/AuthContext';
+import { isSupabaseConfigured } from '../lib/supabase';
 
 const LOGO = require('../assets/logosemfundo.png');
 
@@ -101,6 +102,15 @@ export default function LoginScreen() {
             <Text style={styles.subtitle}>
               {isLogin ? 'Entre na sua conta' : 'Crie sua conta'}
             </Text>
+            
+            {!isSupabaseConfigured() && (
+              <View style={styles.warningContainer}>
+                <Ionicons name="warning-outline" size={20} color="#FFA500" />
+                <Text style={styles.warningText}>
+                  Credenciais do Supabase não configuradas. Configure as variáveis de ambiente.
+                </Text>
+              </View>
+            )}
           </View>
 
           <View style={styles.form}>
@@ -246,5 +256,22 @@ const styles = StyleSheet.create({
   switchLink: {
     color: COLORS.purple,
     fontWeight: '600',
+  },
+  warningContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FFA50020',
+    padding: 12,
+    borderRadius: 8,
+    marginTop: 16,
+    borderWidth: 1,
+    borderColor: '#FFA50040',
+  },
+  warningText: {
+    color: '#FFA500',
+    fontSize: 12,
+    marginLeft: 8,
+    flex: 1,
+    textAlign: 'center',
   },
 });
