@@ -166,23 +166,14 @@ export default function MonthlySummaryScreen({ onBack, userId }: MonthlySummaryS
   };
 
   const navigateMonth = (direction: 'prev' | 'next') => {
-    if (!selectedMonth || allAvailableMonths.length === 0) {
-      return;
-    }
+    if (!selectedMonth || allAvailableMonths.length === 0) return;
 
     const currentIndex = allAvailableMonths.findIndex(
       (m) => m.month === selectedMonth.month && m.year === selectedMonth.year
     );
-    
-    if (currentIndex === -1) {
-      return;
-    }
+    if (currentIndex === -1) return;
 
-    // Como allAvailableMonths está em ordem reversa (mais recente primeiro):
-    // - prev (seta esquerda) = mês anterior (mais antigo) = aumentar índice
-    // - next (seta direita) = mês seguinte (mais recente) = diminuir índice
-    const newIndex = direction === 'prev' ? currentIndex + 1 : currentIndex - 1;
-    
+    const newIndex = direction === 'next' ? currentIndex + 1 : currentIndex - 1;
     if (newIndex >= 0 && newIndex < allAvailableMonths.length) {
       const selected = allAvailableMonths[newIndex];
       setSelectedMonth({ month: selected.month, year: selected.year });
@@ -262,14 +253,14 @@ export default function MonthlySummaryScreen({ onBack, userId }: MonthlySummaryS
                   !selectedMonth ||
                   allAvailableMonths.findIndex(
                     (m) => m.month === selectedMonth.month && m.year === selectedMonth.year
-                  ) === 0
+                  ) === allAvailableMonths.length - 1
                 }
                 style={[
                   styles.monthNavButton,
                   (!selectedMonth ||
                     allAvailableMonths.findIndex(
                       (m) => m.month === selectedMonth.month && m.year === selectedMonth.year
-                    ) === 0) && styles.monthNavButtonDisabled
+                    ) === allAvailableMonths.length - 1) && styles.monthNavButtonDisabled
                 ]}
               >
                 <Ionicons
@@ -279,7 +270,7 @@ export default function MonthlySummaryScreen({ onBack, userId }: MonthlySummaryS
                     !selectedMonth ||
                     allAvailableMonths.findIndex(
                       (m) => m.month === selectedMonth.month && m.year === selectedMonth.year
-                    ) === 0
+                    ) === allAvailableMonths.length - 1
                       ? colors.gray + '40'
                       : colors.text
                   }
@@ -292,22 +283,19 @@ export default function MonthlySummaryScreen({ onBack, userId }: MonthlySummaryS
                 </Text>
               </View>
               <TouchableOpacity
-                onPress={() => {
-                  console.log('Botão next pressionado');
-                  navigateMonth('next');
-                }}
+                onPress={() => navigateMonth('next')}
                 disabled={
                   !selectedMonth ||
                   allAvailableMonths.findIndex(
                     (m) => m.month === selectedMonth.month && m.year === selectedMonth.year
-                  ) === allAvailableMonths.length - 1
+                  ) === 0
                 }
                 style={[
                   styles.monthNavButton,
                   (!selectedMonth ||
                     allAvailableMonths.findIndex(
                       (m) => m.month === selectedMonth.month && m.year === selectedMonth.year
-                    ) === allAvailableMonths.length - 1) && styles.monthNavButtonDisabled
+                    ) === 0) && styles.monthNavButtonDisabled
                 ]}
               >
                 <Ionicons
@@ -317,7 +305,7 @@ export default function MonthlySummaryScreen({ onBack, userId }: MonthlySummaryS
                     !selectedMonth ||
                     allAvailableMonths.findIndex(
                       (m) => m.month === selectedMonth.month && m.year === selectedMonth.year
-                    ) === allAvailableMonths.length - 1
+                    ) === 0
                       ? colors.gray + '40'
                       : colors.text
                   }
@@ -509,8 +497,9 @@ const createStyles = (colors: any) =>
       marginBottom: 20,
     },
     monthNavButton: {
-      padding: 8,
-      minWidth: 40,
+      padding: 12,
+      minWidth: 48,
+      minHeight: 48,
       alignItems: 'center',
       justifyContent: 'center',
     },
