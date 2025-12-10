@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../contexts/AuthContext';
-import { isSupabaseConfigured } from '../lib/supabase';
+import { supabase } from '../lib/supabase';
 
 const LOGO = require('../assets/logosemfundo.png');
 
@@ -37,6 +37,15 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const { signIn, signUp } = useAuth();
+
+  // Verificar se o Supabase está configurado
+  const isSupabaseConfigured = () => {
+    const url = process.env.EXPO_PUBLIC_SUPABASE_URL || '';
+    const key = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY || '';
+    return !!(url && key && 
+      url !== 'https://placeholder.supabase.co' &&
+      key !== 'placeholder-key');
+  };
 
   const handleSubmit = async () => {
     if (isLogin) {
