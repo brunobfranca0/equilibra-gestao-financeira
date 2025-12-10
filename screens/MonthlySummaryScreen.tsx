@@ -165,7 +165,7 @@ export default function MonthlySummaryScreen({ onBack, userId }: MonthlySummaryS
     return `R$ ${Math.abs(value).toFixed(2).replace('.', ',')}`;
   };
 
-  const navigateMonth = (direction: 'prev' | 'next') => {
+  const navigateMonth = useCallback((direction: 'prev' | 'next') => {
     if (!selectedMonth || allAvailableMonths.length === 0) return;
 
     const currentIndex = allAvailableMonths.findIndex(
@@ -173,12 +173,15 @@ export default function MonthlySummaryScreen({ onBack, userId }: MonthlySummaryS
     );
     if (currentIndex === -1) return;
 
-    const newIndex = direction === 'next' ? currentIndex + 1 : currentIndex - 1;
+    // Como allAvailableMonths está em ordem reversa (mais recente primeiro):
+    // - prev (seta esquerda) = mês anterior (mais antigo) = aumentar índice
+    // - next (seta direita) = mês seguinte (mais recente) = diminuir índice
+    const newIndex = direction === 'prev' ? currentIndex + 1 : currentIndex - 1;
     if (newIndex >= 0 && newIndex < allAvailableMonths.length) {
       const selected = allAvailableMonths[newIndex];
       setSelectedMonth({ month: selected.month, year: selected.year });
     }
-  };
+  }, [selectedMonth, allAvailableMonths]);
 
   const selectedMonthData = useMemo(() => {
     if (!selectedMonth) return null;
