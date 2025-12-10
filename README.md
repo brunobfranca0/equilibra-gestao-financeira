@@ -22,7 +22,7 @@
 - [Estrutura do Projeto](#-estrutura-do-projeto)
 - [Scripts Disponíveis](#-scripts-disponíveis)
 - [Banco de Dados](#-banco-de-dados)
-- [Contribuindo](#-contribuindo)
+- [Downloads](#-downloads)
 - [Licença](#-licença)
 
 ## 🎯 Sobre o Projeto
@@ -326,8 +326,6 @@ EXPO_PUBLIC_SUPABASE_URL=https://seu-projeto.supabase.co
 EXPO_PUBLIC_SUPABASE_ANON_KEY=sua_chave_anonima_aqui
 ```
 
-> **⚠️ Importante**: Nunca commite o arquivo `.env` no repositório. Ele já está no `.gitignore`.
-
 ## 🎨 Temas
 
 O aplicativo suporta modo claro e escuro, configurável em:
@@ -345,29 +343,23 @@ O tema é salvo localmente e sincronizado com as preferências do sistema.
   - Funções: camelCase (`handleSave`)
   - Constantes: UPPER_SNAKE_CASE (`MONTH_NAMES`)
 
-## 🐛 Troubleshooting
+## 📥 Downloads
 
-### Erro ao conectar com Supabase
-- Verifique se as variáveis de ambiente estão configuradas corretamente
-- Confirme que as políticas RLS estão ativas no Supabase
+### Versão Atual: 2.0.0
 
-### Erro de build
-- Limpe o cache: `expo start -c`
-- Reinstale as dependências: `rm -rf node_modules && npm install`
+**APK para Android disponível:**
 
-### Problemas com navegação
-- Verifique se todas as rotas estão definidas em `types/navigation.ts`
-- Confirme que o `App.tsx` está renderizando as telas corretamente
+- 📱 [Download APK (Preview)](https://expo.dev/accounts/brunobfranca/projects/equilibra-gestao-financeira/builds/3dc81509-88d1-449b-9ff9-e7f41f308833)
+- 🔗 [Ver Build no Expo](https://expo.dev/accounts/brunobfranca/projects/equilibra-gestao-financeira/builds/3dc81509-88d1-449b-9ff9-e7f41f308833)
 
-## 🤝 Contribuindo
+### Instalação
 
-Contribuições são bem-vindas! Para contribuir:
+1. Baixe o arquivo APK do link acima
+2. No seu dispositivo Android, habilite "Fontes desconhecidas" nas configurações de segurança
+3. Abra o arquivo APK baixado e instale
+4. Configure suas credenciais do Supabase no primeiro uso
 
-1. Faça um Fork do projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
-3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
-4. Push para a branch (`git push origin feature/AmazingFeature`)
-5. Abra um Pull Request
+> **Nota**: Este é um build de preview/teste. Para builds de produção, consulte o [guia de build](./BUILD.md).
 
 ## 📄 Licença
 
@@ -375,7 +367,7 @@ Este projeto está sob a licença **0BSD** (Zero-Clause BSD License).
 
 ## 👨‍💻 Autor
 
-Desenvolvido com ❤️ para ajudar pessoas a organizarem suas finanças pessoais.
+Desenvolvido para ajudar pessoas a organizarem suas finanças pessoais.
 
 ## 🙏 Agradecimentos
 
@@ -387,6 +379,5 @@ Desenvolvido com ❤️ para ajudar pessoas a organizarem suas finanças pessoai
 ---
 
 <div align="center">
-  <p>Feito com ❤️ usando React Native e Expo</p>
-  <p>⭐ Se este projeto foi útil, considere dar uma estrela!</p>
+  <p>Feito cusando React Native e Expo</p>
 </div>
