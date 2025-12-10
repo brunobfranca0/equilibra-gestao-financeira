@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { BackHandler, Platform, SafeAreaView, StyleSheet, View } from 'react-native';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
@@ -67,7 +67,7 @@ function AppContent() {
     setCurrentScreen('main');
   };
 
-  const handleBack = () => {
+  const handleBack = useCallback(() => {
     // Se houver histórico, voltar para a tela anterior
     if (navigationHistory.current.length > 0) {
       const previous = navigationHistory.current.pop();
@@ -81,7 +81,7 @@ function AppContent() {
       // Se não houver histórico, voltar para a tela principal
       setCurrentScreen('main');
     }
-  };
+  }, []);
 
   // Interceptar botão voltar do Android
   useEffect(() => {
@@ -111,7 +111,7 @@ function AppContent() {
     });
 
     return () => backHandler.remove();
-  }, [currentScreen, showTransactionDetails, showAddTransaction, activeTab]);
+  }, [currentScreen, showTransactionDetails, showAddTransaction, handleBack]);
 
   // Limpar histórico quando mudar de tab na tela principal
   useEffect(() => {
